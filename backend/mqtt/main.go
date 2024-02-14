@@ -1,7 +1,7 @@
 package mqtt
 
 import (
-	"fmt"
+	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
@@ -11,15 +11,15 @@ type MqttService struct {
 }
 
 var messagePublishHandler mqtt.MessageHandler = func(c mqtt.Client, m mqtt.Message) {
-	fmt.Printf("Received message: %s from topic: %s\n", m.Payload(), m.Topic())
+	log.Printf("Received message: %s from topic: %s\n", m.Payload(), m.Topic())
 }
 
 var connectHandler mqtt.OnConnectHandler = func(c mqtt.Client) {
-	fmt.Printf("Connected")
+	log.Printf("Connected to broker\n")
 }
 
 var connectionLostHandler mqtt.ConnectionLostHandler = func(c mqtt.Client, err error) {
-	fmt.Printf("Connection lost: %s", err.Error())
+	log.Printf("Connection lost: %s\n", err.Error())
 }
 
 func NewMqttService(broker string, clientId string, username string, password string) *MqttService {

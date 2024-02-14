@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	esp32 "github.com/hirasawaau/embedded-smart-heart-box/backend/esp32"
 	"github.com/hirasawaau/embedded-smart-heart-box/backend/menu"
 	mqtt "github.com/hirasawaau/embedded-smart-heart-box/backend/mqtt"
@@ -25,6 +26,8 @@ func disConnectMongo(client *mongo.Client) {
 
 func main() {
 	app := fiber.New()
+
+	app.Use(logger.New())
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
