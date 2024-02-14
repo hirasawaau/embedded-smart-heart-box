@@ -2,10 +2,15 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	esp32 "github.com/hirasawaau/embedded-smart-heart-box/backend/esp32"
+	"github.com/hirasawaau/embedded-smart-heart-box/backend/menu"
+	mqtt "github.com/hirasawaau/embedded-smart-heart-box/backend/mqtt"
 	msg "github.com/hirasawaau/embedded-smart-heart-box/backend/msg"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -24,15 +29,30 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	mongoUri := os.Getenv("MONGO_URI")
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoUri))
 	if err != nil {
 		panic(err)
 	}
 
 	defer disConnectMongo(client)
 
-	msg.NewMsgRouter(app, client.Database("smartheart").Collection("msg"))
+	brokerHost := os.Getenv("MQTT_HOST")
+	brokerPort, err := strconv.ParseUint(os.Getenv("MQTT_PORT"), 10, 16)
+	if err != nil {
+		panic(err)
+	}
+	brokerClientId := os.Getenv("MQTT_CLIENT_ID")
+	brokerUsername := os.Getenv("MQTT_USERNAME")
+	brokerPassword := os.Getenv("MQTT_PASSWORD")
+
+	mqttService := mqtt.NewMqttService(fmt.Sprintf("tcp://%s:%d", brokerHost, brokerPort), brokerClientId, brokerUsername, brokerPassword)
+	defer mqttService.Disconnect()
+
+	msg.NewMsgRouter(app, client.Database("smartheart").Collection("msg"), mqttService)
 	esp32.NewESP32Router(app, client.Database("smartheart").Collection("esp32"))
+	menu.NewMenuRouter(app, client.Database("smartheart").Collection("menu"))
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{

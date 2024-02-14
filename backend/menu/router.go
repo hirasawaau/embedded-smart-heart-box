@@ -1,36 +1,36 @@
-package esp32
+// Create CRUD fiber function routes for menu
+
+package menu
 
 import (
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	mqtt "github.com/hirasawaau/embedded-smart-heart-box/backend/mqtt"
 )
 
-type ESP32Router struct {
-	esp32Col *mongo.Collection
-	mqttService *mqtt.MqttService
+type MenuRouter struct {
+	menuCol *mongo.Collection
 }
 
-func NewESP32Router(a *fiber.App, esp32Col *mongo.Collection) {
-	router := &ESP32Router{
-		esp32Col: esp32Col,
+func NewMenuRouter(a *fiber.App, menuCol *mongo.Collection) {
+	router := &MenuRouter{
+		menuCol: menuCol,
 	}
 
-	grp := a.Group("/esp32")
+	grp := a.Group("/menus")
 
-	grp.Post("/", router.CreateESP32)
-	grp.Get("/", router.GetESP32s)
+	grp.Post("/", router.CreateMenu)
+	grp.Get("/", router.GetMenus)
 }
 
-func (r *ESP32Router) CreateESP32(c *fiber.Ctx) error {
-	body := new(ESP32Model)
+func (r *MenuRouter) CreateMenu(c *fiber.Ctx) error {
+	body := new(MenuModel)
 	if err := c.BodyParser(body); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
 	}
 	body.ID = primitive.NewObjectID()
-	msg, err := r.esp32Col.InsertOne(c.Context(), body)
+	msg, err := r.menuCol.InsertOne(c.Context(), body)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -38,9 +38,9 @@ func (r *ESP32Router) CreateESP32(c *fiber.Ctx) error {
 	return c.JSON(msg)
 }
 
-func (r *ESP32Router) GetESP32s(c *fiber.Ctx) error {
-	cur, err := r.esp32Col.Find(c.Context(), bson.D{})
-	docs := new([]ESP32Model)
+func (r *MenuRouter) GetMenus(c *fiber.Ctx) error {
+	cur, err := r.menuCol.Find(c.Context(), bson.D{})
+	docs := new([]MenuModel)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -50,5 +50,3 @@ func (r *ESP32Router) GetESP32s(c *fiber.Ctx) error {
 
 	return c.JSON(docs)
 }
-
-

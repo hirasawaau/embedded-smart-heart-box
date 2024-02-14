@@ -7,5 +7,18 @@ services:
       - '27017:27017'
     volumes:
       - dbdata6:/data/db
+  broker:
+    image: eclipse-mosquitto:latest
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ./docker/mosquitto/config:/mosquitto/config:rw
+      - ./docker/mosquitto/data:/mosquitto/data:rw
+      - ./docker/mosquitto/log:/mosquitto/log:rw
+    restart: unless-stopped
+    
+
 volumes:
   dbdata6:
+  broker:
