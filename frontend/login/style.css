@@ -1,0 +1,93 @@
+body {
+  display: flex;
+  padding: 44px 28px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  background-image: url("/login/static_pic/iPhone_13__14_-_3.png");
+  background-color: #fff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  align-self: center;
+}
+
+button {
+  display: flex;
+  padding: 4px 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  border: 1px solid #FF7485;
+  background: #FF7485;
+
+  /* drop-shadow/button-primary */
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.04);
+}
+
+button:hover {
+  background-color: #ff4d62;
+}
+
+input {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  padding: 5px 12px;
+  align-items: center;
+  gap: 4px;
+  flex: 1 0 0;
+  border-radius: 2px;
+  border: 1px solid #FF7485;
+  background: rgba(255, 255, 255, 0.50);
+}
+
+h2 {
+  color: #FF5065;
+  text-align: center;
+  font-family: Sniglet;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+  
+.container {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.60);
+  backdrop-filter: blur(2px);
+  display: flex;
+  padding: 26px 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  font-family: 'Sniglet', cursive;
+}
+
+.typographyInput {
+  color: #FF5065;
+  font-family: Sniglet;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 137.5% */
+}
+
+.typographyButton {
+  color: var(--character-primary-inverse, #FFF);
+  text-align: center;
+  font-family: Sniglet;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 157.143% */
+}
