@@ -28,10 +28,10 @@ uint32_t currentState = 0;
 
 void setup()
 {
-  lcd.init();
-  lcd.backlight();
-  // Wire.begin();
-  // Serial.begin(115200);
+  // lcd.init();
+  // lcd.backlight();
+  Wire.begin();
+  Serial.begin(115200);
   debouncer_next.attach(NextButton, INPUT_PULLUP);
   debouncer_next.interval(15);
   debouncer_ok.attach(OkButton, INPUT_PULLUP);
@@ -53,13 +53,13 @@ void setup()
 void loop() {
   debouncer_next.update();
   debouncer_ok.update();
-  // uint8_t byteReceived = Wire.requestFrom(I2C_DEV_ADDR, 4);
-  // Serial.printf("Byte Received: %u\n", byteReceived);
-  // if((bool)byteReceived) {
-  //   uint8_t temp[byteReceived];
-  //   Wire.readBytes(temp, byteReceived);
-  //   Serial.printf("Received: %s\n", temp);
-  // }
+  uint8_t byteReceived = Wire.requestFrom(I2C_DEV_ADDR, 4);
+  Serial.printf("Byte Received: %u\n", byteReceived);
+  if((bool)byteReceived) {
+    uint8_t temp[byteReceived];
+    Wire.readBytes(temp, byteReceived);
+    Serial.printf("Received: %s\n", temp);
+  }
   // if ( debouncer_next.fell() ) { 
   //   // Serial.println("Next");
   //   lcd.clear();
