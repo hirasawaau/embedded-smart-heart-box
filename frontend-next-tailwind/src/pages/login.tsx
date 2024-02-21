@@ -22,7 +22,7 @@ const login = () => {
       />
       <div className="z-10 text-center rounded-2xl bg-opacity-60 backdrop-filter backdrop-blur-sm bg-white py-[26px] px-[40px] text-[#FF5065] text-3xl justify-center items-center flex flex-col" >
         <form className="flex flex-col gap-[24px] justify-center items-center" action="login.php" method="post">
-          <h2 className={sniglet.className + " text-4xl"}>What’s your serial number?</h2>
+          <h2 className={sniglet.className + " text-4xl"}>What’s your UID?</h2>
           <div className="flex justify-center items-center">
             <img src="static_pic/Group 1heart-box.png" />
           </div>
