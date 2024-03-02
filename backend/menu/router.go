@@ -20,8 +20,10 @@ func NewMenuRouter(a *fiber.App, menuCol *mongo.Collection) {
 
 	grp := a.Group("/menus")
 
-	grp.Post("/", router.CreateMenu)
-	grp.Get("/", router.GetMenus)
+	s := "/:board"
+
+	grp.Post(s, router.CreateMenu)
+	grp.Get(s, router.GetMenus)
 }
 
 func (r *MenuRouter) CreateMenu(c *fiber.Ctx) error {
@@ -29,7 +31,11 @@ func (r *MenuRouter) CreateMenu(c *fiber.Ctx) error {
 	if err := c.BodyParser(body); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
 	}
+
+	uid := c.Params("board")
+
 	body.ID = primitive.NewObjectID()
+	body.BoardId = uid
 	msg, err := r.menuCol.InsertOne(c.Context(), body)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
@@ -39,7 +45,9 @@ func (r *MenuRouter) CreateMenu(c *fiber.Ctx) error {
 }
 
 func (r *MenuRouter) GetMenus(c *fiber.Ctx) error {
-	cur, err := r.menuCol.Find(c.Context(), bson.D{})
+	cur, err := r.menuCol.Find(c.Context(), bson.D{{
+		"board_id", c.Params("board"),
+	}})
 	docs := new([]MenuModel)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
