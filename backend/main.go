@@ -23,7 +23,6 @@ func disConnectMongo(client *mongo.Client) {
 		panic(err)
 	}
 }
-
 func main() {
 	app := fiber.New()
 
@@ -65,3 +64,4 @@ func main() {
 
 	app.Listen(":3000")
 }
+

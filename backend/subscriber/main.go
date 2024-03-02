@@ -10,7 +10,7 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-const TOPIC string = "esp32/65c34f6854554503ee7c57ac"
+const TOPIC string = "esp32/4b3g55"
 
 var messagePublishHandler mqtt.MessageHandler = func(c mqtt.Client, m mqtt.Message) {
 	log.Printf("Received message: %s from topic: %s\n", m.Payload(), m.Topic())
