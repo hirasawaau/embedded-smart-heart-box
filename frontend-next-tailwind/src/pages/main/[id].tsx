@@ -73,15 +73,15 @@ const Main: NextPage = () => {
       return;
     }
     await fetch(
-      `http://localhost:4000/msg/${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
+      `http://localhost:4000/msg`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          msg: messages,
-          createBy: `${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
+          msg: sendMessage,
+          createdBy: `${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
           sendTo: `${UID_PARTNER[(((id ?? 0) as number) ^ 1) as UID_PARTNER_KEY]}`,
         }),
       },

@@ -67,7 +67,7 @@ public:
       String msg["id"] for message id
       String msg["msg"] for message
       */
-    void GetMenus(String boardId, JsonDocument doc)
+    void GetMenus(String boardId)
     {
         this->_http.begin(this->_url + "/msg/" + boardId);
         int httpResponseCode = this->_http.GET();
@@ -97,7 +97,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
     Serial.println(len);
     Serial.print("Char: ");
     Serial.println(custom_msg);
-    currentState = 3;
+    currentState = 4;
     isUpdate = 0;
 }
 
@@ -109,12 +109,6 @@ void setup()
     debouncer_next.interval(15);
     debouncer_ok.attach(OkButton, INPUT_PULLUP);
     debouncer_ok.interval(15);
-    strcpy(default_msg[0], "I Love You");
-    numMsg++;
-    strcpy(default_msg[1], "I Miss You");
-    numMsg++;
-    strcpy(default_msg[2], "I Need You");
-    numMsg++;
     Serial.begin(115200);
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_STA_NAME, WIFI_STA_PASS);
@@ -167,8 +161,12 @@ void loop()
             // delay(6000);
         }
     }
-    // State 1 : Default Message
-    else if (currentState == 1)
+    // State 1: Fetch Default Message
+    else if (currentState == 1) {
+
+    } 
+    // State 2 : Default Message
+    else if (currentState == 2)
     {
         if (!isUpdate)
         {
@@ -195,8 +193,8 @@ void loop()
             // delay(000);
         }
     }
-    // State 2 : Sending Status
-    else if (currentState == 2)
+    // State 3 : Sending Status
+    else if (currentState == 3)
     {
 
         lcd.clear();
@@ -217,7 +215,7 @@ void loop()
         currentState = 0;
     }
 
-    else if (currentState == 3)
+    else if (currentState == 4)
     {
         if (!isUpdate)
         {
