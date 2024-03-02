@@ -114,7 +114,7 @@ void setup()
     mqtt.setCallback(callback);
     Serial.begin(115200);
     Serial.setDebugOutput(true);
-    servo.attach(13);        // Attach the servo to GPIO13
+    servo.attach(23);        // Attach the servo to GPIO13
     pinMode(LDR_PIN, INPUT); // Set the LDR pin as input
     WiFi.mode(WIFI_STA);
 

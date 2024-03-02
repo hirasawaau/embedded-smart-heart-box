@@ -1,6 +1,6 @@
 {
     "board": "esp32:esp32:nodemcu-32s",
-    "port": "/dev/tty.usbserial-0001",
+    "port": "/dev/tty.usbserial-6",
     "programmer": "esptool",
     "sketch": "esp-servo.ino",
     "output": "build",
