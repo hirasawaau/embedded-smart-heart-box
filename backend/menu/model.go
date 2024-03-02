@@ -7,3 +7,8 @@ type MenuModel struct {
 	Msg     string             `json:"msg" bson:"msg"`
 	BoardId string             `json:"boardId" bson:"board_id"`
 }
+
+type EditMenuModel struct {
+	Menus   []string `json:"menus"`
+	BoardId string   `json:"boardId"`
+}
