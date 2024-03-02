@@ -15,8 +15,8 @@
 #define WIFI_STA_NAME "KarnPrAe 2.4G"
 #define WIFI_STA_PASS "03042103"
 
-// #define TARGET_BOARD "esp32/4b3g56" // target_for_First_board
-#define TARGET_BOARD "esp32/4b3g55" // target_for_Second_board
+// #define TARGET_BOARD "4b3g56" // target_for_First_board
+#define TARGET_BOARD "4b3g55" // target_for_Second_board
 
 WiFiClient client;
 
@@ -29,7 +29,6 @@ int idx = 1;
 int numMsg = 0;
 uint32_t isUpdate = 0;
 uint32_t currentState = 0;
-HTTPClient http;
 
 class API
 {
@@ -50,9 +49,10 @@ public:
     {
         char payload[200];
         snprintf(payload, sizeof(payload), "{\"msg\":\"%s\",\"createdBy\":\"%s\",\"sendTo\":\"%s\"}", msg, createdBy, sendTo);
+        Serial.println(payload);
         this->_http.begin(this->_url + "/msg");
         this->_http.addHeader("Content-Type", "application/json");
-        int httpResponseCode = http.POST(String(payload));
+        int httpResponseCode = this->_http.POST(String(payload));
         if (httpResponseCode >= 200 && httpResponseCode < 300)
         {
             Serial.printf("Create Msg %s,%s To %s sucess\n", createdBy, msg, sendTo);
