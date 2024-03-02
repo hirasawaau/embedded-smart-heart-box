@@ -12,14 +12,14 @@ const main = () => {
     return (
         <div className="overflow-y-scroll flex flex-col pt-[44px] px-[28px] gap-[12px] justify-center items-center flex-shrink-0 relative h-[100vh] bg-gradient-to-b from-[#FFD5D5] to-[#FF7485]">
             <img
-            className="absolute bottom-0 left-0 z-0"
-            src="https://media.discordapp.net/attachments/1199373638579785838/1207243742705352744/letter.png?ex=65def059&is=65cc7b59&hm=b8ff48bbe6c2059a662e7a80ed132f371ec8957e52b59df8caf69819e3ebe1d7&=&format=webp&quality=lossless"
-            alt="logo"
+                className="absolute bottom-0 left-0 z-0"
+                src="https://cdn.discordapp.com/attachments/1213439368954642503/1213439401087205416/love_letter.png?ex=65f57a81&is=65e30581&hm=01d8def1791372622be2ac62d79de7f106a7919c78e5a6d774c2dec036dee2fc&"
+                alt="logo"
             />
             <img
-            className="absolute top-0 right-0 z-0"
-            src="https://media.discordapp.net/attachments/1199373638579785838/1207243742940241920/lock.png?ex=65def059&is=65cc7b59&hm=5de1b715237ab5a19cb300bb24a48adcf240e4b5cd46760317394d583e4835b9&=&format=webp&quality=lossless"
-            alt="logo"
+                className="absolute top-0 right-0 z-0"
+                src="https://cdn.discordapp.com/attachments/1213439368954642503/1213439401368092672/love_lock.png?ex=65f57a81&is=65e30581&hm=808fbd9458e38164adada305d4c84b2ff92d92a7a1dc6bb7b17d4081c7358cfb&"
+                alt="logo"
             />
             <div className="z-10 gap-[24px] text-center rounded-2xl bg-opacity-60 backdrop-filter backdrop-blur-sm bg-white py-[26px] px-[32px] text-[#FF5065] text-[20px] justify-center items-center flex flex-col" >
                 <div className="flex items-center gap-[8px] self-stretch">
@@ -121,7 +121,7 @@ const main = () => {
                     <h2 className={sniglet.className + " text-[20px]"}>Default message</h2>
                 </div>
                 <div className="flex flex-col items-center gap-[4px] self-stretch">
-                    <div className="flex p-[8px] flex-col items-start gap-[8px] self-stretch rounded-[8px] bg-opacity-50 bg-rose-50" >
+                    <div className="flex p-[8px] flex-col items-start gap-[8px] self-stretch rounded-[8px] bg-opacity-50 bg-white" >
                     <table className={sniglet.className + " table-auto w-[254px] text-[16px] text-[#FF5065]"}>
                     <thead>
                         <tr>
