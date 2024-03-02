@@ -73,13 +73,13 @@ public:
       String msg["id"] for message id
       String msg["msg"] for message
       */
-    void GetMenus(String boardId)
+    void GetMenus(char boardId[], char result[5][17])
     {
-        this->_http.begin(this->_url + "/msg/" + boardId);
+        this->_http.begin(this->_url + "/msg/" + String(boardId));
         int httpResponseCode = this->_http.GET();
-        if (httpResponseCode >= 200 || httpResponseCode < 300)
+        if (httpResponseCode >= 200 && httpResponseCode < 300)
         {
-
+            JsonDocument doc;
             Serial.println("Get Msg sucess");
             String payload = this->_http.getString();
             this->_http.end();
@@ -88,7 +88,14 @@ public:
             {
                 Serial.print(F("deserializeJson() failed: "));
                 Serial.println(error.f_str());
+                return;
             }
+
+            for(int i=0 ; i<3 ; i++) {
+              strcpy(result[i], doc[i]["msg"]);
+            }
+        } else {
+          Serial.println(httpResponseCode);
         }
         this->_http.end();
     }
@@ -169,7 +176,12 @@ void loop()
     }
     // State 1: Fetch Default Message
     else if (currentState == 1) {
-
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Loading...");
+      api_client.GetMenus(CURRENT_BOARD, default_msg);
+      delay(2000);
+      currentState = 2;
     } 
     // State 2 : Default Message
     else if (currentState == 2)
