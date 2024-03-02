@@ -36,13 +36,11 @@ class API
 private:
     String _url;
     HTTPClient _http;
-    WiFiClient _wifi;
 
 public:
-    API(WiFiClient wifi, String baseURL)
+    API(String baseURL)
     {
         this->_url = baseURL;
-        this->_wifi = wifi;
     };
 
     void CreateMessage(
@@ -52,7 +50,7 @@ public:
     {
         char payload[200];
         snprintf(payload, sizeof(payload), "{\"msg\":\"%s\",\"createdBy\":\"%s\",\"sendTo\":\"%s\"}", msg, createdBy, sendTo);
-        this->_http.begin(this->_wifi, this->_url + "/msg");
+        this->_http.begin(this->_url + "/msg");
         this->_http.addHeader("Content-Type", "application/json");
         int httpResponseCode = http.POST(String(payload));
         if (httpResponseCode >= 200 && httpResponseCode < 300)
@@ -61,7 +59,7 @@ public:
         }
         else
         {
-            Serial.printf("error:%d", httpResponseCode);
+            Serial.printf("error:%d\n", httpResponseCode);
         }
         this->_http.end();
     };
@@ -71,7 +69,7 @@ public:
       */
     void GetMenus(String boardId, JsonDocument doc)
     {
-        this->_http.begin(this->_wifi, this->_url + "/msg/" + boardId);
+        this->_http.begin(this->_url + "/msg/" + boardId);
         int httpResponseCode = this->_http.GET();
         if (httpResponseCode >= 200 || httpResponseCode < 300)
         {
@@ -90,7 +88,7 @@ public:
     }
 };
 
-API api_client(client, "http://192.168.1.43");
+API api_client("http://192.168.1.43:3000");
 
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
 {
@@ -120,6 +118,15 @@ void setup()
     Serial.begin(115200);
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_STA_NAME, WIFI_STA_PASS);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.print(".");
+        digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
+    Serial.println("");
+    Serial.print("Connected to WiFi network with IP Address: ");
+    Serial.println(WiFi.localIP());
     if (esp_now_init() != ESP_OK)
     {
         Serial.println("Error initializing ESP-NOW");
@@ -196,7 +203,15 @@ void loop()
         lcd.setCursor(0, 0);
 
         lcd.print("Sending...");
-        api_client.CreateMessage(default_msg[(idx - 1) % numMsg], "?", TARGET_BOARD);
+        if (WiFi.status() == WL_CONNECTED)
+        {
+            Serial.println("WiFi Connected");
+            api_client.CreateMessage(default_msg[(idx - 1) % numMsg], "?", TARGET_BOARD);
+        }
+        else
+        {
+            Serial.println("WiFi Disconnected");
+        }
         delay(2000);
         lcd.clear();
         currentState = 0;
