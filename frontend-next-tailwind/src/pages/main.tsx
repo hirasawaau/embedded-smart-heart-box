@@ -29,7 +29,7 @@ const main = () => {
                     <h2 className={sniglet.className + " text-[20px]"}>Send message to partner</h2>
                 </div>
                 <div className="flex flex-col items-start gap-[4px] self-stretch">
-                    <p className={sniglet.className + " text-[#FF5065] text-[14px]"}>Please enter your message here</p>
+                    <p className={sniglet.className + " text-[#FF5065] text-[14px]"}>Partner’s UID: xxxxxx</p>
                     <input
                         type="text"
                         name="serial"
@@ -128,7 +128,7 @@ const main = () => {
                     </div>
                 </div>
                 <button type="submit" className=" bg-[#FF7485] px-[16px] py-[4px] border-[1px] rounded-md border-[#FF7485]">
-                        <div className= {sniglet.className + " text-base text-white mx-[16px] my-[4px]"}>Send to lover</div>{" "}
+                        <div className= {sniglet.className + " text-base text-white mx-[16px] my-[4px]"}>Save default message </div>{" "}
                     </button>
             </div>
         </div>
