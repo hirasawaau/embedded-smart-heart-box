@@ -1,8 +1,10 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sniglet } from "next/font/google";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { set } from "zod";
+import { List } from "postcss/lib/list";
 
 const sniglet = Sniglet({
   display: "swap",
@@ -11,46 +13,85 @@ const sniglet = Sniglet({
 });
 
 const UID_PARTNER = {
-  1: "Partner2",
-  2: "Partner1",
-};
-
-const handleSaveDefaultMessage = async (
-  e: React.MouseEvent<HTMLButtonElement>,
-) => {
-  e.preventDefault();
-
-  //using fetch API to send data to the backend
-  const messages = ["", "", ""]; // Declare the messages variable
-
-  try {
-    const response = await fetch("", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ messages }),
-    });
-    const data = await response.json();
-    console.log(data); // Log response from backend
-  } catch (error) {
-    console.error("Error:", error);
-  }
+  0: "4b3g55",
+  1: "4b3g56",
 };
 
 type UID_PARTNER_KEY = keyof typeof UID_PARTNER;
 
-const main: NextPage = () => {
+const Main: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const partner = UID_PARTNER[+(id ?? 0) as UID_PARTNER_KEY];
-  const [messages, setMessages] = useState(["ddf", "dfdf", "dfdf"]);
+  const partner = UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY];
+  const [messages, setMessages] = useState(["", "", ""]);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      await fetch(
+        `http://localhost:4000/menus/${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
+      )
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("Network response was not ok.");
+        })
+        .then((data) => {
+          setMessages(
+            (data as Record<string, string[]>)?.menus ?? ["", "", ""],
+          );
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    };
+    void fetchMessages();
+  }, []);
   const handleInputChange = (index: number, value: string) => {
-    const newMessages = [...messages];
-    newMessages[index] = value;
-    setMessages(newMessages);
+    setMessages([
+      ...messages.slice(0, index),
+      value,
+      ...messages.slice(index + 1),
+    ]);
   };
-
+  const validateForm = () => {
+    for (const [index, message] of messages.entries()) {
+      if (message.length > 16) {
+        alert(`Message ${index} is too long please limit to 16 characters`);
+        return false;
+      }
+      if (message === "") {
+        alert(`Message ${index} is empty`);
+        return false;
+      }
+    }
+    return true;
+  };
+  const handleSaveDefaultMessage = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    //using fetch API to send data to the backend
+    try {
+      const response = await fetch(
+        `http://localhost:4000/menus/${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
+        {
+          method: "PUSH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ menus: messages }),
+        },
+      );
+      const data = (await response.json()) as Record<string, string[]>;
+      console.log(data); // Log response from backend
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    alert("Default message saved");
+  };
   return (
     <div className="relative flex h-[100vh] flex-shrink-0 flex-col items-center justify-center gap-[16px] overflow-y-scroll bg-gradient-to-b from-[#FFD5D5] to-[#FF7485] px-[28px]">
       <img
@@ -146,6 +187,7 @@ const main: NextPage = () => {
           <div className="flex w-[278px] flex-col items-start gap-[8px] self-stretch rounded-[8px] bg-white bg-opacity-50 px-[12px] py-[8px]">
             {messages.map((message, index) => (
               <input
+                key={index}
                 type="text"
                 value={message}
                 onChange={(e) => handleInputChange(index, e.target.value)}
@@ -153,8 +195,7 @@ const main: NextPage = () => {
                   sniglet.className +
                   " flex flex-[1_0_0] items-center self-stretch rounded-md bg-transparent text-[14px] "
                 }
-                placeholder="text"
-                required
+                placeholder={`Message ${index}`}
               />
             ))}
           </div>
@@ -177,4 +218,4 @@ const main: NextPage = () => {
   );
 };
 ``;
-export default main;
+export default Main;
