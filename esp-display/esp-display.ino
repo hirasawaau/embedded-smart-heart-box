@@ -9,14 +9,20 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #define NextButton 10
-#define OkButton 9
+#define OKButton 9
 #define I2C_DEV_ADDR 0x55
 
-#define WIFI_STA_NAME "KarnPrAe 2.4G"
-#define WIFI_STA_PASS "03042103"
+// #define WIFI_STA_NAME "KarnPrAe 2.4G"
+// #define WIFI_STA_PASS "03042103"
 
-// #define TARGET_BOARD "4b3g56" // target_for_First_board
-#define TARGET_BOARD "4b3g55" // target_for_Second_board
+#define WIFI_STA_NAME "IshiHotspot"
+#define WIFI_STA_PASS "1q2w3e4r"
+
+// #define API_IP "http://192.168.1.43:3000"
+#define API_IP "http://192.168.95.172:3000"
+
+#define TARGET_BOARD "4b3g56" // target_for_First_board
+// #define TARGET_BOARD "4b3g55" // target_for_Second_board
 
 WiFiClient client;
 
@@ -88,7 +94,7 @@ public:
     }
 };
 
-API api_client("http://192.168.1.43:3000");
+API api_client(API_IP);
 
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
 {
@@ -107,7 +113,7 @@ void setup()
     lcd.backlight();
     debouncer_next.attach(NextButton, INPUT_PULLUP);
     debouncer_next.interval(15);
-    debouncer_ok.attach(OkButton, INPUT_PULLUP);
+    debouncer_ok.attach(OKButton, INPUT_PULLUP);
     debouncer_ok.interval(15);
     strcpy(default_msg[0], "I Love You");
     numMsg++;
@@ -157,7 +163,7 @@ void loop()
             lcd.setCursor(0, 0);
             lcd.print(">SELECT MESSAGE<");
             lcd.setCursor(14, 1);
-            lcd.print("Ok");
+            lcd.print("OK");
             isUpdate = 1;
         }
         if (debouncer_ok.fell())
@@ -176,7 +182,7 @@ void loop()
             lcd.setCursor(0, 0);
             lcd.print(default_msg[0]);
             lcd.setCursor(9, 1);
-            lcd.print("Next|Ok");
+            lcd.print("Next|OK");
             isUpdate = 1;
             // delay(1000);
         }
@@ -186,7 +192,7 @@ void loop()
             lcd.setCursor(0, 0);
             lcd.print(default_msg[(idx++) % numMsg]);
             lcd.setCursor(9, 1);
-            lcd.print("Next|Ok");
+            lcd.print("Next|OK");
         }
         if (debouncer_ok.fell())
         {
@@ -226,7 +232,7 @@ void loop()
             lcd.setCursor(0, 0);
             lcd.print(custom_msg);
             lcd.setCursor(14, 1);
-            lcd.print("Ok");
+            lcd.print("OK");
             isUpdate = 1;
         }
         if (debouncer_ok.fell())
