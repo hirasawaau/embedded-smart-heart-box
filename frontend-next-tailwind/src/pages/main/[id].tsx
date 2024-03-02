@@ -75,23 +75,28 @@ const Main: NextPage = () => {
     if (!validateForm()) {
       return;
     }
-    //using fetch API to send data to the backend
-    try {
-      const response = await fetch(
-        `http://localhost:4000/menus/${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ menus: messages }),
+    await fetch(
+      `http://localhost:4000/menus/${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
-      const data = (await response.json()) as Record<string, string[]>;
-      console.log(data); // Log response from backend
-    } catch (error) {
-      console.error("Error:", error);
-    }
+        body: JSON.stringify({ menus: messages }),
+      },
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     alert("Default message saved");
   };
   return (
