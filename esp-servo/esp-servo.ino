@@ -5,17 +5,19 @@
 #include <ESP32Servo.h>
 #include <PubSubClient.h>
 
-#define WIFI_STA_NAME "IshiHotspot"
-#define WIFI_STA_PASS "1q2w3e4r"
+#define WIFI_STA_NAME "KarnPrAe 2.4G"
+#define WIFI_STA_PASS "03042103"
 
-#define MQTT_SERVER "192.168.95.172"
+#define MQTT_SERVER "192.168.1.43"
 #define MQTT_PORT 1883
 #define MQTT_USERNAME "jinn"
 #define MQTT_PASSWORD "jinn"
 #define MQTT_NAME "ESP32_1"
 
-#define LDR_PIN 34              // Define the pin where the LDR is connected
-#define DARKNESS_THRESHOLD 2000 // Define the threshold for darkness
+// #define MQTT_SUBSCRIBE_TOPIC "esp32/4b3g55" // board1
+#define MQTT_SUBSCRIBE_TOPIC "esp32/4b3g56" // board2
+#define LDR_PIN 34                          // Define the pin where the LDR is connected
+#define DARKNESS_THRESHOLD 4000             // Define the threshold for darkness
 
 WiFiClient client;
 PubSubClient mqtt(client);
@@ -23,7 +25,8 @@ PubSubClient mqtt(client);
 Servo servo;
 // 0x3C, 0x61, 0x05, 0x03, 0xB5, 0xEC
 // uint8_t peerAddress[] = {0xEC, 0xB5, 0x03, 0x05, 0x61, 0x3C};
-uint8_t peerAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xB5, 0xEC};
+uint8_t peerAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xB5, 0xEC}; // first board
+// uint8_t peerAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xCC, 0x8C}; // second board
 uint32_t i = 0;
 int test = 0;
 
@@ -151,7 +154,7 @@ void loop()
         if (mqtt.connect(MQTT_NAME, MQTT_USERNAME, MQTT_PASSWORD))
         {
             Serial.println("connected");
-            mqtt.subscribe("esp32/4b3g55");
+            mqtt.subscribe(MQTT_SUBSCRIBE_TOPIC);
         }
         else
         {
