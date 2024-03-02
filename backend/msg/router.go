@@ -41,7 +41,7 @@ func (r *MsgRouter) CreateMsg(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	r.mqttService.Publish(fmt.Sprintf("esp32/%s", body.BoardTo), 0, false, fmt.Sprintf("%s,%s", body.CreatedBy, body.Msg))
+	r.mqttService.Publish(fmt.Sprintf("esp32/%s", body.BoardTo), 0, false, body.Msg)
 
 	return c.JSON(body)
 }
