@@ -34,7 +34,7 @@ const main: NextPage = () => {
                 src="https://cdn.discordapp.com/attachments/1213439368954642503/1213439401368092672/love_lock.png?ex=65f57a81&is=65e30581&hm=808fbd9458e38164adada305d4c84b2ff92d92a7a1dc6bb7b17d4081c7358cfb&"
                 alt="logo"
             />
-            <div className="z-10 gap-[24px] text-center rounded-2xl bg-opacity-60 backdrop-filter backdrop-blur-sm bg-white py-[26px] px-[32px] text-[#FF5065] text-[20px] justify-center items-center flex flex-col" >
+            <div className="z-10 gap-[20px] text-center rounded-2xl bg-opacity-60 backdrop-filter backdrop-blur-sm bg-white py-[26px] px-[32px] text-[#FF5065] text-[20px] justify-center items-center flex flex-col" >
                 <div className="flex items-center gap-[8px] self-stretch">
                     <svg className="w-6 h-6" fill="#FF5065" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25">
                         <path d="M21.3113 3.18876C21.1226 3.00025 20.8872 2.86544 20.6291 2.79821C20.3711 2.73098 20.0998 2.73376 19.8431 2.80626H19.8291L1.83469 8.26626C1.54178 8.35049 1.28147 8.52197 1.08844 8.75784C0.895411 8.99371 0.778814 9.28278 0.754177 9.58658C0.72954 9.89037 0.798032 10.1945 0.950532 10.4583C1.10303 10.7222 1.3323 10.9334 1.60782 11.0638L9.63469 14.8653L13.4363 22.8922C13.5563 23.1492 13.7473 23.3666 13.9869 23.5186C14.2264 23.6706 14.5044 23.7509 14.7881 23.75C14.8313 23.75 14.8744 23.7481 14.9175 23.7444C15.2202 23.7199 15.5082 23.6034 15.7428 23.4105C15.9774 23.2176 16.1474 22.9576 16.23 22.6653L21.6863 4.67094C21.6863 4.66626 21.6863 4.66157 21.6863 4.65688C21.7597 4.40091 21.7637 4.13 21.6978 3.87199C21.6319 3.61397 21.4985 3.37815 21.3113 3.18876ZM14.7966 22.2359L14.7919 22.2491L11.1019 14.4594L15.5306 10.0297C15.6653 9.8879 15.7393 9.69908 15.7368 9.50351C15.7343 9.30794 15.6555 9.12108 15.5172 8.98278C15.3789 8.84448 15.1921 8.76568 14.9965 8.76318C14.8009 8.76067 14.6121 8.83466 14.4703 8.96938L10.0406 13.3981L2.25001 9.70813H2.26313L20.25 4.25001L14.7966 22.2359Z"/>
@@ -66,14 +66,15 @@ const main: NextPage = () => {
                 </button>
             </div>
 
-            <div className="z-10 gap-[24px] text-left rounded-2xl bg-opacity-60 backdrop-filter backdrop-blur-sm bg-white py-[26px] px-[32px] text-[#FF5065] text-[20px] justify-center items-center flex flex-col" >
+            <div className="z-10 gap-[20px] text-left rounded-2xl bg-opacity-60 backdrop-filter backdrop-blur-sm bg-white py-[26px] px-[32px] text-[#FF5065] text-[20px] justify-center items-center flex flex-col" >
                 <div className="flex items-center gap-[8px] self-stretch">
                     <svg className="w-6 h-6" fill="#FF5065" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25">
                         <path d="M21 5H3C2.80109 5 2.61032 5.07902 2.46967 5.21967C2.32902 5.36032 2.25 5.55109 2.25 5.75V18.5C2.25 18.8978 2.40804 19.2794 2.68934 19.5607C2.97064 19.842 3.35218 20 3.75 20H20.25C20.6478 20 21.0294 19.842 21.3107 19.5607C21.592 19.2794 21.75 18.8978 21.75 18.5V5.75C21.75 5.55109 21.671 5.36032 21.5303 5.21967C21.3897 5.07902 21.1989 5 21 5ZM19.0716 6.5L12 12.9828L4.92844 6.5H19.0716ZM20.25 18.5H3.75V7.45531L11.4928 14.5531C11.6312 14.6801 11.8122 14.7506 12 14.7506C12.1878 14.7506 12.3688 14.6801 12.5072 14.5531L20.25 7.45531V18.5Z"/>
                     </svg>
                     <h2 className={sniglet.className + " text-[20px]"}>Default message</h2>
                 </div>
-                <div className="flex flex-col items-center gap-[4px] self-stretch">
+                <div className="flex flex-col justify-start items-left gap-[4px] self-stretch">
+                    <p className={sniglet.className + " text-[#FF5065] text-[14px] text-left"}>Click message to edit</p>
                     <div className="flex w-[278px] px-[12px] py-[8px] flex-col items-start gap-[8px] self-stretch rounded-[8px] bg-opacity-50 bg-white" >
                     <input type="text" name="message" className={sniglet.className + " text-[14px] flex self-stretch items-center flex-[1_0_0] rounded-md bg-transparent placeholder-[#FF5065]"} placeholder="Text1" required />
                     <input type="text" name="message" className={sniglet.className + " text-[14px] flex self-stretch items-center flex-[1_0_0] rounded-md bg-transparent placeholder-[#FF5065]"} placeholder="Text2" required />
