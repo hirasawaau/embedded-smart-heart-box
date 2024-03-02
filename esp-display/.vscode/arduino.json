@@ -1,0 +1,7 @@
+{
+    "sketch": "esp-display.ino",
+    "output": "build",
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
+    "board": "esp32:esp32:nodemcu-32s",
+    "port": "/dev/tty.usbserial-0001"
+}
