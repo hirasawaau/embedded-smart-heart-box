@@ -18,21 +18,24 @@
 #define WIFI_STA_NAME "IshiHotspot"
 #define WIFI_STA_PASS "1q2w3e4r"
 
-// #define API_IP "http://192.168.1.43:3000"
-#define API_IP "http://192.168.95.172:3000"
+// #define API_IP "http://192.168.1.43:4000"
+#define API_IP "http://192.168.95.172:4000"
 
 #define TARGET_BOARD "4b3g56" // target_for_First_board
+#define CURRENT_BOARD "4b3g55" // current_for_First_board
 // #define TARGET_BOARD "4b3g55" // target_for_Second_board
+// #define CURRENT_BOARD "4b3g56" // current_for_Second_board
+
 
 WiFiClient client;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 Bounce debouncer_next = Bounce();
 Bounce debouncer_ok = Bounce();
-char default_msg[5][17];
+char default_msg[3][17];
 char custom_msg[17];
-int idx = 1;
-int numMsg = 0;
+int idx = 0;
+int numMsg = 3;
 uint32_t isUpdate = 0;
 uint32_t currentState = 0;
 
@@ -73,9 +76,9 @@ public:
       String msg["id"] for message id
       String msg["msg"] for message
       */
-    void GetMenus(char boardId[], char result[5][17])
+    void GetMenus(char boardId[], char result[3][17])
     {
-        this->_http.begin(this->_url + "/msg/" + String(boardId));
+        this->_http.begin(this->_url + "/menus/" + String(boardId));
         int httpResponseCode = this->_http.GET();
         if (httpResponseCode >= 200 && httpResponseCode < 300)
         {
@@ -182,6 +185,7 @@ void loop()
       api_client.GetMenus(CURRENT_BOARD, default_msg);
       delay(2000);
       currentState = 2;
+      idx = 0;
     } 
     // State 2 : Default Message
     else if (currentState == 2)
@@ -190,7 +194,7 @@ void loop()
         {
             lcd.clear();
             lcd.setCursor(0, 0);
-            lcd.print(default_msg[0]);
+            lcd.print(default_msg[idx]);
             lcd.setCursor(9, 1);
             lcd.print("Next|OK");
             isUpdate = 1;
@@ -198,15 +202,13 @@ void loop()
         }
         if (debouncer_next.fell())
         {
-            lcd.clear();
-            lcd.setCursor(0, 0);
-            lcd.print(default_msg[(idx++) % numMsg]);
-            lcd.setCursor(9, 1);
-            lcd.print("Next|OK");
+            idx++;
+            idx %= numMsg;
+            isUpdate = 0;
         }
         if (debouncer_ok.fell())
         {
-            currentState = 2;
+            currentState = 3;
             isUpdate = 0;
             // delay(000);
         }
@@ -222,7 +224,7 @@ void loop()
         if (WiFi.status() == WL_CONNECTED)
         {
             Serial.println("WiFi Connected");
-            api_client.CreateMessage(default_msg[(idx - 1) % numMsg], "?", TARGET_BOARD);
+            api_client.CreateMessage(default_msg[idx % numMsg], "?", TARGET_BOARD);
         }
         else
         {

@@ -37,18 +37,20 @@ const Main: NextPage = () => {
           throw new Error("Network response was not ok.");
         })
         .then((data) => {
-          console.log(data);
+          // console.log("id:", UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]);
           setMessages(
-            (data as Record<string, string>[]).map((item) => item.msg ?? ""),
+            (data as Record<string, string>[])?.map(
+              (item) => item.msg ?? "",
+            ) || ["", "", ""],
           );
+          console.log("messages:", messages);
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     };
     void fetchMessages();
-    console.log(messages);
-  }, []);
+  }, [id]);
   const handleInputChange = (index: number, value: string) => {
     setMessages([
       ...messages.slice(0, index),
@@ -72,20 +74,17 @@ const Main: NextPage = () => {
     if (!validateSendMessage()) {
       return;
     }
-    await fetch(
-      `http://localhost:4000/msg`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          msg: sendMessage,
-          createdBy: `${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
-          sendTo: `${UID_PARTNER[(((id ?? 0) as number) ^ 1) as UID_PARTNER_KEY]}`,
-        }),
+    await fetch(`http://localhost:4000/msg`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
+      body: JSON.stringify({
+        msg: sendMessage,
+        createdBy: `${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
+        sendTo: `${UID_PARTNER[(((id ?? 0) as number) ^ 1) as UID_PARTNER_KEY]}`,
+      }),
+    })
       .then((response) => {
         if (response.ok) {
           return response.json();
