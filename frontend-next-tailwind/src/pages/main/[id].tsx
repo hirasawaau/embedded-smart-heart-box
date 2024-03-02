@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Sniglet } from "next/font/google";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { set } from "zod";
 import { List } from "postcss/lib/list";
@@ -36,8 +36,9 @@ const Main: NextPage = () => {
           throw new Error("Network response was not ok.");
         })
         .then((data) => {
+          console.log(data);
           setMessages(
-            (data as Record<string, string[]>)?.menus ?? ["", "", ""],
+            (data as Record<string, string>[]).map((item) => item.msg ?? ""),
           );
         })
         .catch((error) => {
@@ -45,6 +46,7 @@ const Main: NextPage = () => {
         });
     };
     void fetchMessages();
+    console.log(messages);
   }, []);
   const handleInputChange = (index: number, value: string) => {
     setMessages([
@@ -78,7 +80,7 @@ const Main: NextPage = () => {
       const response = await fetch(
         `http://localhost:4000/menus/${UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]}`,
         {
-          method: "PUSH",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },

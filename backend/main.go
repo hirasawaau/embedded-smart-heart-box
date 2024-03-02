@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	esp32 "github.com/hirasawaau/embedded-smart-heart-box/backend/esp32"
 	"github.com/hirasawaau/embedded-smart-heart-box/backend/menu"
@@ -27,6 +28,10 @@ func main() {
 	app := fiber.New()
 
 	app.Use(logger.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "*",
+		AllowCredentials: true,
+	}))
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
