@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Sniglet } from "next/font/google";
 
 const sniglet = Sniglet({
@@ -9,6 +9,7 @@ const sniglet = Sniglet({
 })
 
 const main = () => {
+    const [selected, setSelected] = useState<boolean>(false);
     return (
         <div className="overflow-y-scroll flex flex-col pt-[44px] px-[28px] gap-[12px] justify-center items-center flex-shrink-0 relative h-[100vh] bg-gradient-to-b from-[#FFD5D5] to-[#FF7485]">
             <img
@@ -30,8 +31,8 @@ const main = () => {
                 </div>
                 <div className="relative inline-block text-left">
                     <div>
-                        <button type="button" className={sniglet.className + " text-[#FF7485] inline-flex w-[270px] h-[40px] px-[16px] py-[5px] justify-between items-center gap-x-1.5 rounded-md bg-[#FFF5F5] text-[14px] shadow-sm ring-1 ring-inset ring-[#FF5065] hover:bg-gray-50"} id="menu-button" aria-expanded="true" aria-haspopup="true">
-                        Select your partner
+                        <button onClick={() => {setSelected(!selected);console.log("changed")}} type="button" className={sniglet.className + " text-[#FF7485] inline-flex w-[270px] h-[40px] px-[16px] py-[5px] justify-between items-center gap-x-1.5 rounded-md bg-[#FFF5F5] text-[14px] shadow-sm ring-1 ring-inset ring-[#FF5065] hover:bg-gray-50"} id="menu-button" aria-expanded="true" aria-haspopup="true">
+                        Select your lover
                         <svg className="-mr-1 h-5 w-5 text-[#FF7485]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                         </svg>
@@ -47,12 +48,12 @@ const main = () => {
                         From: "transform opacity-100 scale-100"
                         To: "transform opacity-0 scale-95"
                     --> */}
-                    <div className="absolute right-0 z-10 w-[270px] h-[40px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
+                    <div className={"absolute right-0 z-10 w-[270px] h-[40px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                         <div className={sniglet.className + " text-[#FF7485] block text-left text-[14px]"} role="none">
                         {/* <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-0">Account settings</a>
                         <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-1">Support</a>
                         <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-2">License</a> */}
-                        <form method="POST" action="#" role="none">
+                        <form className={selected?"transition ease-out duration-100 scale-100":"transition ease-in duration-75 scale-0"} method="POST" action="#" role="none">
                             <button type="submit" className="block w-[270px] h-[40px] px-[12px] py-[5px] text-left text-[14px]" role="menuitem" tabIndex={-1} id="menu-item-3">Box1</button>
                         </form>
                         </div>
