@@ -21,11 +21,11 @@
 
 ## แนวคิดและหลักการ
 <p align="center">
-<img width="608" alt="SmartHeart_Diagram drawio-4" src="https://github.com/hirasawaau/embedded-smart-heart-box/assets/122012803/6b21f394-9da0-4797-8714-d24e5e7e1383">
+<img width="608" alt="SmartHeart_Diagram drawio-4" src="pictures/SmartHeart_Diagram.drawio-4.png">
 
 ### แผนผังวงจร (Smart Heart Box 1 กล่อง)
 <p align="center">
-<img width="608" alt="Screenshot 2567-03-02 at 22 53 55" src="https://github.com/hirasawaau/embedded-smart-heart-box/assets/122012803/f0066c45-404a-4618-a5ca-7b3450442a06">
+<img width="608" alt="Screenshot 2567-03-02 at 22 53 55" src="pictures/Screenshot 2567-03-02 at 22.53.55.png">
 </p>
 
 ### เว็บแอปพลิเคชั่น
