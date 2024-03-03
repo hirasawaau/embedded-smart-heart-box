@@ -21,10 +21,10 @@
 // #define API_IP "http://192.168.1.43:4000"
 #define API_IP "http://192.168.95.172:4000"
 
-#define TARGET_BOARD "4b3g56" // target_for_First_board
-#define CURRENT_BOARD "4b3g55" // current_for_First_board
-// #define TARGET_BOARD "4b3g55" // target_for_Second_board
-// #define CURRENT_BOARD "4b3g56" // current_for_Second_board
+// #define TARGET_BOARD "4b3g56" // target_for_First_board
+// #define CURRENT_BOARD "4b3g55" // current_for_First_board
+#define TARGET_BOARD "4b3g55" // target_for_Second_board
+#define CURRENT_BOARD "4b3g56" // current_for_Second_board
 
 
 WiFiClient client;

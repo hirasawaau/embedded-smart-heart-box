@@ -37,17 +37,17 @@ const Main: NextPage = () => {
           throw new Error("Network response was not ok.");
         })
         .then((data) => {
-          // console.log("id:", UID_PARTNER[(id ?? 0) as UID_PARTNER_KEY]);
           setMessages(
             (data as Record<string, string>[])?.map(
               (item) => item.msg ?? "",
             ) || ["", "", ""],
           );
-          console.log("messages:", messages);
         })
         .catch((error) => {
           console.error("Error:", error);
         });
+      // console.log("id:", id);
+      // console.log("messages:", messages);
     };
     void fetchMessages();
   }, [id]);
