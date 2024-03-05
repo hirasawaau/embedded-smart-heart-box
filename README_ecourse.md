@@ -30,7 +30,7 @@
 <p align="center">
 <div style="display: flex; justify-content: space-between;">
 <p>
-<img width="204" alt="Screenshot 2567-03-02 at 22 53 55" src="https://raw.githubusercontent.com/hirasawaau/embedded-smart-heart-box/main/pictures/Screenshot 2567-03-02 at 22.53.55.png" style="margin-right:10px;" /><br></p><p><img width="204" alt="Screenshot 2567-03-02 at 22 53 55" src="https://raw.githubusercontent.com/hirasawaau/embedded-smart-heart-box/main/pictures/Screenshot 2567-03-02 at 22.53.55.png" /></p>
+<img width="400" alt="Screenshot 2567-03-02 at 22 53 55" src="https://raw.githubusercontent.com/hirasawaau/embedded-smart-heart-box/main/pictures/Screenshot 2567-03-02 at 22.53.55.png" style="margin-right:10px;" /><br></p><p><img width="400" alt="Screenshot 2567-03-02 at 22 53 55" src="https://raw.githubusercontent.com/hirasawaau/embedded-smart-heart-box/main/pictures/Screenshot 2567-03-02 at 22.53.55.png" /></p>
 </p>
 </div>
 
