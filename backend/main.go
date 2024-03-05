@@ -18,6 +18,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+func GetEnvOrDefault(key string, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
+}
+
 func disConnectMongo(client *mongo.Client) {
 	err := client.Disconnect(context.Background())
 	if err != nil {
@@ -36,7 +44,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	mongoUri := os.Getenv("MONGO_URI")
+	mongoUri := GetEnvOrDefault("MONGO_URI", "mongodb://localhost:27017")
 
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoUri))
 	if err != nil {
@@ -45,14 +53,16 @@ func main() {
 
 	defer disConnectMongo(client)
 
-	brokerHost := os.Getenv("MQTT_HOST")
-	brokerPort, err := strconv.ParseUint(os.Getenv("MQTT_PORT"), 10, 16)
+	brokerHost := GetEnvOrDefault("MQTT_HOST", "localhost")
+	brokerPortStr := GetEnvOrDefault("MQTT_PORT", "1883")
+	brokerPort, err := strconv.ParseUint(brokerPortStr, 10, 16)
 	if err != nil {
 		panic(err)
 	}
-	brokerClientId := os.Getenv("MQTT_CLIENT_ID")
-	brokerUsername := os.Getenv("MQTT_USERNAME")
-	brokerPassword := os.Getenv("MQTT_PASSWORD")
+	brokerClientId := GetEnvOrDefault("MQTT_CLIENT_ID", "go-mqtt-backend")
+	brokerUsername := GetEnvOrDefault("MQTT_USERNAME", "jinn")
+
+	brokerPassword := GetEnvOrDefault("MQTT_PASSWORD", "jinn")
 
 	mqttService := mqtt.NewMqttService(fmt.Sprintf("tcp://%s:%d", brokerHost, brokerPort), brokerClientId, brokerUsername, brokerPassword)
 	defer mqttService.Disconnect()
