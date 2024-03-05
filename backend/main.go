@@ -67,5 +67,10 @@ func main() {
 		})
 	})
 
-	app.Listen(":4000")
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		PORT = "4000"
+	}
+
+	app.Listen(fmt.Sprintf(":%s", PORT))
 }
