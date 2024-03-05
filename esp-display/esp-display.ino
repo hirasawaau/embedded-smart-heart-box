@@ -2,7 +2,6 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
-#include <SPI.h>
 #include <LiquidCrystal_I2C.h>
 #include <Adafruit_I2CDevice.h>
 #include <Bounce2.h>
@@ -12,19 +11,19 @@
 #define OKButton 9
 #define I2C_DEV_ADDR 0x55
 
-// #define WIFI_STA_NAME "KarnPrAe 2.4G"
-// #define WIFI_STA_PASS "03042103"
+#define WIFI_STA_NAME "KarnPrAe 2.4G"
+#define WIFI_STA_PASS "03042103"
 
-#define WIFI_STA_NAME "IshiHotspot"
-#define WIFI_STA_PASS "1q2w3e4r"
+// #define WIFI_STA_NAME "IshiHotspot"
+// #define WIFI_STA_PASS "1q2w3e4r"
 
-// #define API_IP "http://192.168.1.43:4000"
-#define API_IP "http://192.168.95.172:4000"
+#define API_IP "http://192.168.1.43:4000"
+// #define API_IP "http://192.168.95.172:4000"
 
-// #define TARGET_BOARD "4b3g56" // target_for_First_board
-// #define CURRENT_BOARD "4b3g55" // current_for_First_board
-#define TARGET_BOARD "4b3g55" // target_for_Second_board
-#define CURRENT_BOARD "4b3g56" // current_for_Second_board
+#define TARGET_BOARD "4b3g56" // target_for_First_board
+#define CURRENT_BOARD "4b3g55" // current_for_First_board
+// #define TARGET_BOARD "4b3g55" // target_for_Second_board
+// #define CURRENT_BOARD "4b3g56" // current_for_Second_board
 
 
 WiFiClient client;
@@ -58,6 +57,7 @@ public:
     {
         char payload[200];
         snprintf(payload, sizeof(payload), "{\"msg\":\"%s\",\"createdBy\":\"%s\",\"sendTo\":\"%s\"}", msg, createdBy, sendTo);
+        Serial.printf("Target Host %s\n", this->_url);
         Serial.println(payload);
         this->_http.begin(this->_url + "/msg");
         this->_http.addHeader("Content-Type", "application/json");
@@ -79,6 +79,7 @@ public:
     void GetMenus(char boardId[], char result[3][17])
     {
         this->_http.begin(this->_url + "/menus/" + String(boardId));
+        Serial.println(this->_url + "/menus/" + String(boardId));
         int httpResponseCode = this->_http.GET();
         if (httpResponseCode >= 200 && httpResponseCode < 300)
         {
@@ -126,7 +127,7 @@ void setup()
     debouncer_ok.attach(OKButton, INPUT_PULLUP);
     debouncer_ok.interval(15);
     Serial.begin(115200);
-    WiFi.mode(WIFI_STA);
+    WiFi.mode(WIFI_AP_STA);
     WiFi.begin(WIFI_STA_NAME, WIFI_STA_PASS);
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -146,6 +147,8 @@ void setup()
     {
         Serial.println("ESP-NOW Initialized");
     }
+    Serial.println(WiFi.macAddress());
+    Serial.println(WiFi.channel());
     esp_now_register_recv_cb(OnDataRecv);
     // Turn on the blacklight and print a message.
     // lcd.setCursor(0, 0);
