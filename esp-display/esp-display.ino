@@ -11,20 +11,19 @@
 #define OKButton 9
 #define I2C_DEV_ADDR 0x55
 
-#define WIFI_STA_NAME "KarnPrAe 2.4G"
-#define WIFI_STA_PASS "03042103"
-
 // #define WIFI_STA_NAME "IshiHotspot"
 // #define WIFI_STA_PASS "1q2w3e4r"
 
-#define API_IP "http://192.168.1.43:4000"
+#define WIFI_STA_NAME "Redmi Note 12 Pro+ 5G"
+#define WIFI_STA_PASS "shadowgate"
+
 // #define API_IP "http://192.168.95.172:4000"
+#define API_IP "http://192.168.99.60:4000"
 
-#define TARGET_BOARD "4b3g56" // target_for_First_board
-#define CURRENT_BOARD "4b3g55" // current_for_First_board
-// #define TARGET_BOARD "4b3g55" // target_for_Second_board
-// #define CURRENT_BOARD "4b3g56" // current_for_Second_board
-
+// #define TARGET_BOARD "4b3g56" // target_for_First_board
+// #define CURRENT_BOARD "4b3g55" // current_for_First_board
+#define TARGET_BOARD "4b3g55"  // target_for_Second_board
+#define CURRENT_BOARD "4b3g56" // current_for_Second_board
 
 WiFiClient client;
 
@@ -33,8 +32,8 @@ Bounce debouncer_next = Bounce();
 Bounce debouncer_ok = Bounce();
 char default_msg[3][17];
 char custom_msg[17];
-int idx = 0;
-int numMsg = 3;
+uint32_t idx = 0;
+uint32_t numMsg = 3;
 uint32_t isUpdate = 0;
 uint32_t currentState = 0;
 
@@ -95,11 +94,14 @@ public:
                 return;
             }
 
-            for(int i=0 ; i<3 ; i++) {
-              strcpy(result[i], doc[i]["msg"]);
+            for (int i = 0; i < 3; i++)
+            {
+                strcpy(result[i], doc[i]["msg"]);
             }
-        } else {
-          Serial.println(httpResponseCode);
+        }
+        else
+        {
+            Serial.println(httpResponseCode);
         }
         this->_http.end();
     }
@@ -150,11 +152,6 @@ void setup()
     Serial.println(WiFi.macAddress());
     Serial.println(WiFi.channel());
     esp_now_register_recv_cb(OnDataRecv);
-    // Turn on the blacklight and print a message.
-    // lcd.setCursor(0, 0);
-    // lcd.print(">SELECT MESSAGE<");
-    // lcd.setCursor(12, 1);
-    // lcd.print("Next");
 }
 void loop()
 {
@@ -181,15 +178,16 @@ void loop()
         }
     }
     // State 1: Fetch Default Message
-    else if (currentState == 1) {
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print("Loading...");
-      api_client.GetMenus(CURRENT_BOARD, default_msg);
-      delay(2000);
-      currentState = 2;
-      idx = 0;
-    } 
+    else if (currentState == 1)
+    {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Loading...");
+        api_client.GetMenus(CURRENT_BOARD, default_msg);
+        delay(2000);
+        currentState = 2;
+        idx = 0;
+    }
     // State 2 : Default Message
     else if (currentState == 2)
     {
