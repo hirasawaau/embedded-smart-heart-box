@@ -5,28 +5,28 @@
 #include <ESP32Servo.h>
 #include <PubSubClient.h>
 
-#define WIFI_STA_NAME "KarnPrAe 2.4G"
-#define WIFI_STA_PASS "03042103"
+#define WIFI_STA_NAME "Redmi Note 12 Pro+ 5G"
+#define WIFI_STA_PASS "shadowgate"
 
 //#define WIFI_STA_NAME "IshiHotspot"
 //#define WIFI_STA_PASS "1q2w3e4r"
 
-#define MQTT_SERVER "192.168.1.43"
+#define MQTT_SERVER "192.168.99.172"
 // #define MQTT_SERVER "192.168.95.172"
 #define MQTT_PORT 1883
 #define MQTT_USERNAME "jinn"
 #define MQTT_PASSWORD "jinn"
 
-#define MQTT_NAME "ESP32_0" // first_board
-uint8_t peerAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xB5, 0xEC}; // first board
-#define MQTT_SUBSCRIBE_TOPIC "esp32/4b3g55" // board1
-// #define DARKNESS_THRESHOLD 2000 //first board // Define the threshold for darkness
-// #define MQTT_NAME "ESP32_1"//second_board
-// uint8_t peerAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xCC, 0x8C}; // second board
-// #define MQTT_SUBSCRIBE_TOPIC "esp32/4b3g56" // board2
+// #define MQTT_NAME "ESP32_0" // first_board
+// uint8_t peerAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xB5, 0xEC}; // first board
+// #define MQTT_SUBSCRIBE_TOPIC "esp32/4b3g55" // board1
+#define MQTT_NAME "ESP32_1"//second_board
+uint8_t peerAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xCC, 0x8C}; // second board
+#define MQTT_SUBSCRIBE_TOPIC "esp32/4b3g56" // board2
 
+#define DARKNESS_THRESHOLD 1500 //first board // Define the threshold for darkness
 #define LDR_PIN 34              // Define the pin where the LDR is connected
-#define DARKNESS_THRESHOLD 3000// second // Define the threshold for darkness
+// #define DARKNESS_THRESHOLD 3000// second // Define the threshold for darkness
 
 WiFiClient client;
 PubSubClient mqtt(client);
